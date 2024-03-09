@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, cloneElement, ReactElement, ReactNode } from 'react';
-import { CssBaseline } from '@mui/material';
+import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache, { EmotionCache } from '@emotion/cache';
 import { create, Jss } from 'jss';
@@ -97,13 +97,15 @@ export default function DemoFrame(props: DemoFrameProps) {
     ) : null;
   } else if (theme === 'material-ui-5') {
     body = ready ? (
-      <CacheProvider value={emotionCache}>
-        <CssBaseline />
-        {cloneElement(children, {
-          container: container,
-          window: window,
-        })}
-      </CacheProvider>
+      <ThemeProvider theme={createTheme({ palette: { mode: 'dark' } })}>
+        <CacheProvider value={emotionCache}>
+          <CssBaseline />
+          {cloneElement(children, {
+            container: container,
+            window: window,
+          })}
+        </CacheProvider>
+      </ThemeProvider>
     ) : null;
   } else if (theme === 'fluent-ui') {
     // TODO: find a better way to render fluent-ui in an iframe, if we need to do so.
